@@ -17,6 +17,7 @@ Future<void> main() async {
     const windowOptions = WindowOptions(
       titleBarStyle: TitleBarStyle.hidden,
       title: 'YSFH Final 2023',
+      alwaysOnTop: kDebugMode,
       center: true,
     );
     await windowManager.waitUntilReadyToShow(windowOptions, () async {
@@ -94,65 +95,61 @@ class HomePage extends HookConsumerWidget {
       focusNode: useFocusNode(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Stack(
-          children: [
-            DecoratedBox(
+        body: Center(
+          child: FittedBox(
+            child: Stack(
+              fit: StackFit.passthrough,
+              alignment: Alignment.center,
               // background image
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/1212123_base.png'),
+              children: [
+                const BasePicture(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextItemWidget(
+                      textItem: state[0],
+                    ),
+                    TextItemWidget(
+                      textItem: state[1],
+                    ),
+                    TextItemWidget(
+                      textItem: state[2],
+                    ),
+                    TextItemWidget(
+                      textItem: state[3],
+                    ),
+                    TextItemWidget(
+                      textItem: state[4],
+                    ),
+                    TextItemWidget(
+                      textItem: state[5],
+                    ),
+                    TextItemWidget(
+                      textItem: state[6],
+                    ),
+                    const SizedBox(
+                      width: 40,
+                    ),
+                    TextItemWidget(
+                      textItem: state[7],
+                    ),
+                    TextItemWidget(
+                      textItem: state[8],
+                    ),
+                    TextItemWidget(
+                      textItem: state[9],
+                    ),
+                    TextItemWidget(
+                      textItem: state[10],
+                    ),
+                    TextItemWidget(
+                      textItem: state[11],
+                    ),
+                  ],
                 ),
-              ),
-              child: SizedBox.expand(
-                child: FittedBox(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextItemWidget(
-                        textItem: state[0],
-                      ),
-                      TextItemWidget(
-                        textItem: state[1],
-                      ),
-                      TextItemWidget(
-                        textItem: state[2],
-                      ),
-                      TextItemWidget(
-                        textItem: state[3],
-                      ),
-                      TextItemWidget(
-                        textItem: state[4],
-                      ),
-                      TextItemWidget(
-                        textItem: state[5],
-                      ),
-                      TextItemWidget(
-                        textItem: state[6],
-                      ),
-                      const SizedBox(
-                        width: 40,
-                      ),
-                      TextItemWidget(
-                        textItem: state[7],
-                      ),
-                      TextItemWidget(
-                        textItem: state[8],
-                      ),
-                      TextItemWidget(
-                        textItem: state[9],
-                      ),
-                      TextItemWidget(
-                        textItem: state[10],
-                      ),
-                      TextItemWidget(
-                        textItem: state[11],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            )
-          ],
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -170,13 +167,13 @@ class TextItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const style = TextStyle(
-      fontSize: 150,
+      fontSize: 420,
       color: Colors.white,
       fontFamily: 'Calibri',
       fontWeight: FontWeight.bold,
     );
     return Transform.translate(
-      offset: Offset(0, textItem.shouldShow ? 0 : -1000),
+      offset: Offset(0, textItem.shouldShow ? 0 : -10000),
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 250),
         transitionBuilder: (child, animation) {
@@ -184,7 +181,7 @@ class TextItemWidget extends StatelessWidget {
               animation.value > 0.5) {
             return SlideTransition(
               position: Tween<Offset>(
-                begin: const Offset(0, -0.03),
+                begin: const Offset(0, -0.05),
                 end: const Offset(0, 0),
               ).animate(animation),
               child: child,
