@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ysfh_final/model/text_item.dart';
 
@@ -10,7 +10,11 @@ part 'controller.g.dart';
 @riverpod
 class TextStates extends _$TextStates {
   List<bool> isProcessing = List.filled(12, false);
-  final audio = AudioPlayer();
+
+  List<AudioPlayer> audioPlayers = List.generate(
+    12,
+    (index) => AudioPlayer(),
+  );
 
   @override
   List<TextItem> build() {
@@ -157,7 +161,6 @@ class TextStates extends _$TextStates {
     ];
   }
 
-  @override
   void onPress(int target) {
     log(target.toString());
     // 実行中の場合は無視
@@ -166,7 +169,11 @@ class TextStates extends _$TextStates {
     }
 
     // 音を鳴らす
-    audio.play('sounds/press.mp3');
+    final player = audioPlayers[target];
+    final fileName = 'sounds/${(target + 1).toString().padLeft(2, "0")}.mp3';
+    player.setAsset('assets/$fileName').then(
+          (_) => player.play(),
+        );
 
     // 当該のTextItemのshouldShowがfalseの場合はtrueにする
     if (!state[target].shouldShow) {

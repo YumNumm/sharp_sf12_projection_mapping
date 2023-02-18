@@ -29,7 +29,7 @@ class _SystemHash {
   }
 }
 
-String _$TextStatesHash() => r'3a686d47889f4b2dc3eab2314e8fb1576eae0fab';
+String _$TextStatesHash() => r'e84e3aad85396c7537cbc42057eafbcb94eab4a2';
 
 /// See also [TextStates].
 final textStatesProvider =
