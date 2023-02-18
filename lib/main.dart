@@ -86,7 +86,7 @@ class HomePage extends HookConsumerWidget {
                     Colors.white,
                     BlendMode.modulate,
                   ),
-                  //child: Expanded(child: BasePicture()),
+                  child: Expanded(child: BasePicture()),
                 ),
               ),
               SizedBox.expand(
