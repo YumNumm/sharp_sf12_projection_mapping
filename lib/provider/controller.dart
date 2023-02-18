@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ysfh_final/model/text_item.dart';
@@ -8,6 +9,9 @@ part 'controller.g.dart';
 
 @riverpod
 class TextStates extends _$TextStates {
+  List<bool> isProcessing = List.filled(12, false);
+  final audio = AudioPlayer();
+
   @override
   List<TextItem> build() {
     return [
@@ -153,16 +157,13 @@ class TextStates extends _$TextStates {
     ];
   }
 
-  List<bool> isProcessing = List.filled(12, false);
-
+  @override
   void onPress(int target) {
     log(target.toString());
     // 実行中の場合は無視
     if (isProcessing[target]) {
       return;
     }
-    // 実行中にする
-    isProcessing[target] = true;
 
     // 当該のTextItemのshouldShowがfalseの場合はtrueにする
     if (!state[target].shouldShow) {
@@ -171,17 +172,18 @@ class TextStates extends _$TextStates {
         state[target].copyWith(shouldShow: true),
         ...state.sublist(target + 1),
       ];
+      return;
     }
+    // 実行中にする
+    isProcessing[target] = true;
     // 当該のTextItemのshouldShowがtrueの場合はisShiningをtrueにする
-    else {
-      state = [
-        ...state.sublist(0, target),
-        state[target].copyWith(isShining: true),
-        ...state.sublist(target + 1),
-      ];
-    }
+    state = [
+      ...state.sublist(0, target),
+      state[target].copyWith(isShining: true),
+      ...state.sublist(target + 1),
+    ];
     // 150ms後に実行中を解除
-    Future.delayed(const Duration(milliseconds: 150), () {
+    Future.delayed(const Duration(milliseconds: 1000), () {
       isProcessing[target] = false;
       // isShiningがtrueの場合はfalseにする
       if (state[target].isShining) {

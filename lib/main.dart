@@ -114,7 +114,9 @@ class HomePage extends HookConsumerWidget {
                     TextItemWidget(
                       textItem: state[6],
                     ),
-                    const SizedBox(width: 10),
+                    const SizedBox(
+                      width: 20,
+                    ),
                     TextItemWidget(
                       textItem: state[7],
                     ),
@@ -160,7 +162,7 @@ class TextItemWidget extends StatelessWidget {
     return Transform.translate(
       offset: Offset(0, textItem.shouldShow ? 0 : -1000),
       child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 100),
+        duration: const Duration(milliseconds: 250),
         child: Container(
           key: ValueKey(textItem.hashCode),
           child: Stack(
@@ -199,8 +201,10 @@ class TextItemWidget extends StatelessWidget {
                     ..style = PaintingStyle.fill
                     ..strokeWidth = 1
                     ..isAntiAlias = true
-                    ..color = textItem.isHead
-                        ? const Color.fromARGB(255, 255, 0, 0)
+                    ..color = textItem.isShining
+                        ? textItem.isHead
+                            ? const Color.fromARGB(255, 255, 17, 0)
+                            : Colors.black
                         : Colors.grey,
                 ),
               ),
