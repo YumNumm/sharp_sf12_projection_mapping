@@ -77,19 +77,16 @@ class HomePage extends HookConsumerWidget {
       focusNode: useFocusNode(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Center(
-          child: Stack(
-            children: [
-              const Center(
-                child: ColorFiltered(
-                  colorFilter: ColorFilter.mode(
-                    Colors.white,
-                    BlendMode.modulate,
-                  ),
-                  child: Expanded(child: BasePicture()),
+        body: Stack(
+          children: [
+            Container(
+              // background image
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/1212123_base.png'),
                 ),
               ),
-              SizedBox.expand(
+              child: SizedBox.expand(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -134,9 +131,9 @@ class HomePage extends HookConsumerWidget {
                     ),
                   ],
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );

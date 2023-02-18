@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -162,18 +160,17 @@ class TextStates extends _$TextStates {
   }
 
   void onPress(int target) {
-    log(target.toString());
-    // 実行中の場合は無視
-    if (isProcessing[target]) {
-      return;
-    }
-
     // 音を鳴らす
     final player = audioPlayers[target];
     final fileName = 'sounds/${(target + 1).toString().padLeft(2, "0")}.mp3';
     player.setAsset('assets/$fileName').then(
           (_) => player.play(),
         );
+
+    // 実行中の場合は無視
+    if (isProcessing[target]) {
+      return;
+    }
 
     // 当該のTextItemのshouldShowがfalseの場合はtrueにする
     if (!state[target].shouldShow) {
