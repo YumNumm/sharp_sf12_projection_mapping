@@ -86,7 +86,7 @@ class HomePage extends HookConsumerWidget {
                     Colors.white,
                     BlendMode.modulate,
                   ),
-                  // child: Expanded(child: BasePicture()),
+                  //child: Expanded(child: BasePicture()),
                 ),
               ),
               SizedBox.expand(
@@ -115,7 +115,7 @@ class HomePage extends HookConsumerWidget {
                       textItem: state[6],
                     ),
                     const SizedBox(
-                      width: 20,
+                      width: 40,
                     ),
                     TextItemWidget(
                       textItem: state[7],
