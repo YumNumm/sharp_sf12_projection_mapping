@@ -1,0 +1,34 @@
+name: ysfh_final
+description: A new Flutter project.
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.19.0 <3.0.0"
+
+dependencies:
+  bordered_text: ^2.0.0
+  cupertino_icons: ^1.0.2
+  flutter:
+    sdk: flutter
+  flutter_hooks: ^0.18.0
+  hooks_riverpod: ^2.1.1
+
+dev_dependencies:
+  flutter_lints: ^2.0.0
+  flutter_test:
+    sdk: flutter
+  pedantic_mono: ^1.21.1
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/
+
+  fonts:
+    - family: Calibri
+      fonts:
+        - asset: assets/calibri.ttf
+          weight: 400
