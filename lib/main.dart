@@ -1,14 +1,29 @@
 import 'dart:ui';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:window_manager/window_manager.dart';
 import 'package:ysfh_final/model/text_item.dart';
 import 'package:ysfh_final/provider/controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (!kIsWeb) {
+    await windowManager.ensureInitialized();
+    const windowOptions = WindowOptions(
+      titleBarStyle: TitleBarStyle.hidden,
+      title: 'YSFH Final 2023',
+      center: true,
+    );
+    await windowManager.waitUntilReadyToShow(windowOptions, () async {
+      await windowManager.show();
+      await windowManager.focus();
+    });
+  }
   runApp(
     const ProviderScope(
       child: App(),
@@ -55,8 +70,10 @@ class HomePage extends HookConsumerWidget {
         SingleActivator(LogicalKeyboardKey.digit8): OnKeyPressIntent(8),
         SingleActivator(LogicalKeyboardKey.digit9): OnKeyPressIntent(9),
         SingleActivator(LogicalKeyboardKey.digit0): OnKeyPressIntent(10),
+        SingleActivator(LogicalKeyboardKey.minus): OnKeyPressIntent(11),
         SingleActivator(LogicalKeyboardKey.keyQ): OnKeyPressIntent(11),
         SingleActivator(LogicalKeyboardKey.keyW): OnKeyPressIntent(12),
+        SingleActivator(LogicalKeyboardKey.caret): OnKeyPressIntent(12),
         SingleActivator(LogicalKeyboardKey.enter): ResetIntent(),
       },
       actions: <Type, Action>{
@@ -79,7 +96,7 @@ class HomePage extends HookConsumerWidget {
         backgroundColor: Colors.white,
         body: Stack(
           children: [
-            Container(
+            DecoratedBox(
               // background image
               decoration: const BoxDecoration(
                 image: DecorationImage(
@@ -87,49 +104,51 @@ class HomePage extends HookConsumerWidget {
                 ),
               ),
               child: SizedBox.expand(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextItemWidget(
-                      textItem: state[0],
-                    ),
-                    TextItemWidget(
-                      textItem: state[1],
-                    ),
-                    TextItemWidget(
-                      textItem: state[2],
-                    ),
-                    TextItemWidget(
-                      textItem: state[3],
-                    ),
-                    TextItemWidget(
-                      textItem: state[4],
-                    ),
-                    TextItemWidget(
-                      textItem: state[5],
-                    ),
-                    TextItemWidget(
-                      textItem: state[6],
-                    ),
-                    const SizedBox(
-                      width: 40,
-                    ),
-                    TextItemWidget(
-                      textItem: state[7],
-                    ),
-                    TextItemWidget(
-                      textItem: state[8],
-                    ),
-                    TextItemWidget(
-                      textItem: state[9],
-                    ),
-                    TextItemWidget(
-                      textItem: state[10],
-                    ),
-                    TextItemWidget(
-                      textItem: state[11],
-                    ),
-                  ],
+                child: FittedBox(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextItemWidget(
+                        textItem: state[0],
+                      ),
+                      TextItemWidget(
+                        textItem: state[1],
+                      ),
+                      TextItemWidget(
+                        textItem: state[2],
+                      ),
+                      TextItemWidget(
+                        textItem: state[3],
+                      ),
+                      TextItemWidget(
+                        textItem: state[4],
+                      ),
+                      TextItemWidget(
+                        textItem: state[5],
+                      ),
+                      TextItemWidget(
+                        textItem: state[6],
+                      ),
+                      const SizedBox(
+                        width: 40,
+                      ),
+                      TextItemWidget(
+                        textItem: state[7],
+                      ),
+                      TextItemWidget(
+                        textItem: state[8],
+                      ),
+                      TextItemWidget(
+                        textItem: state[9],
+                      ),
+                      TextItemWidget(
+                        textItem: state[10],
+                      ),
+                      TextItemWidget(
+                        textItem: state[11],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             )
@@ -160,8 +179,25 @@ class TextItemWidget extends StatelessWidget {
       offset: Offset(0, textItem.shouldShow ? 0 : -1000),
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 250),
+        transitionBuilder: (child, animation) {
+          if (child.key!.toString().contains('false') &&
+              animation.value > 0.5) {
+            return SlideTransition(
+              position: Tween<Offset>(
+                begin: const Offset(0, -0.03),
+                end: const Offset(0, 0),
+              ).animate(animation),
+              child: child,
+            );
+          }
+          // shining側のアニメーション
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
         child: Container(
-          key: ValueKey(textItem.hashCode),
+          key: ValueKey(textItem.text + textItem.isShining.toString()),
           child: Stack(
             children: [
               if (textItem.isShining)

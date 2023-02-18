@@ -17,6 +17,7 @@ dependencies:
   just_audio: ^0.9.31
   just_audio_windows: ^0.2.0
   riverpod_annotation: ^1.1.1
+  window_manager: ^0.3.0
 
 dev_dependencies:
   build_runner: null

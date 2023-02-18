@@ -190,7 +190,7 @@ class TextStates extends _$TextStates {
       ...state.sublist(target + 1),
     ];
     // 150ms後に実行中を解除
-    Future.delayed(const Duration(milliseconds: 1000), () {
+    Future.delayed(const Duration(milliseconds: 800), () {
       isProcessing[target] = false;
       // isShiningがtrueの場合はfalseにする
       if (state[target].isShining) {
