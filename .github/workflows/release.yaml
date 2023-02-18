@@ -53,6 +53,7 @@ jobs:
           cache-key: ${{ env.FLUTTER_VERSION }}-${{ env.FLUTTER_CHANNEL }}
 
       - name: Get Repository Information
+        if: matrix.os == 'ubuntu-latest'
         id: version
         run: |
           REPOSITORY=$(echo ${{ github.repository }} | sed -e "s#.*/##")

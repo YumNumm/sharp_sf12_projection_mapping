@@ -165,6 +165,9 @@ class TextStates extends _$TextStates {
       return;
     }
 
+    // 音を鳴らす
+    audio.play('sounds/press.mp3');
+
     // 当該のTextItemのshouldShowがfalseの場合はtrueにする
     if (!state[target].shouldShow) {
       state = [
