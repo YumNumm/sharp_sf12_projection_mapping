@@ -29,19 +29,19 @@ class _SystemHash {
   }
 }
 
-String _$TextStatesHash() => r'e84e3aad85396c7537cbc42057eafbcb94eab4a2';
+String _$TextStatesHash() => r'c4b110d3523e5ab031ebf64c751aaa3b93354fb3';
 
 /// See also [TextStates].
 final textStatesProvider =
-    AutoDisposeNotifierProvider<TextStates, List<TextItem>>(
+    AutoDisposeNotifierProvider<TextStates, TextStatsModel>(
   TextStates.new,
   name: r'textStatesProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$TextStatesHash,
 );
-typedef TextStatesRef = AutoDisposeNotifierProviderRef<List<TextItem>>;
+typedef TextStatesRef = AutoDisposeNotifierProviderRef<TextStatsModel>;
 
-abstract class _$TextStates extends AutoDisposeNotifier<List<TextItem>> {
+abstract class _$TextStates extends AutoDisposeNotifier<TextStatsModel> {
   @override
-  List<TextItem> build();
+  TextStatsModel build();
 }

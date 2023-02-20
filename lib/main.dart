@@ -52,12 +52,28 @@ class ResetIntent extends Intent {
   const ResetIntent();
 }
 
+class ShowAllIntent extends Intent {
+  const ShowAllIntent();
+}
+
+class ShowTitleBarIntent extends Intent {
+  const ShowTitleBarIntent();
+}
+
+class HideTitleBarIntent extends Intent {
+  const HideTitleBarIntent();
+}
+
+class TransitToBlackScreen extends Intent {
+  const TransitToBlackScreen();
+}
+
 class HomePage extends HookConsumerWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(textStatesProvider);
+    final state = ref.watch(textStatesProvider).textItems;
 
     return FocusableActionDetector(
       shortcuts: const <ShortcutActivator, Intent>{
@@ -76,6 +92,10 @@ class HomePage extends HookConsumerWidget {
         SingleActivator(LogicalKeyboardKey.keyW): OnKeyPressIntent(12),
         SingleActivator(LogicalKeyboardKey.caret): OnKeyPressIntent(12),
         SingleActivator(LogicalKeyboardKey.enter): ResetIntent(),
+        SingleActivator(LogicalKeyboardKey.space): ShowAllIntent(),
+        SingleActivator(LogicalKeyboardKey.keyT): ShowTitleBarIntent(),
+        SingleActivator(LogicalKeyboardKey.keyR): HideTitleBarIntent(),
+        SingleActivator(LogicalKeyboardKey.keyB): TransitToBlackScreen(),
       },
       actions: <Type, Action>{
         OnKeyPressIntent: CallbackAction<OnKeyPressIntent>(
@@ -90,67 +110,104 @@ class HomePage extends HookConsumerWidget {
             return null;
           },
         ),
+        ShowAllIntent: CallbackAction<ShowAllIntent>(
+          onInvoke: (ShowAllIntent intent) {
+            ref.read(textStatesProvider.notifier).showAll();
+            return null;
+          },
+        ),
+        ShowTitleBarIntent: CallbackAction<ShowTitleBarIntent>(
+          onInvoke: (ShowTitleBarIntent intent) {
+            windowManager.setTitleBarStyle(TitleBarStyle.normal);
+            return null;
+          },
+        ),
+        HideTitleBarIntent: CallbackAction<HideTitleBarIntent>(
+          onInvoke: (HideTitleBarIntent intent) {
+            windowManager.setTitleBarStyle(TitleBarStyle.hidden);
+            return null;
+          },
+        ),
+        TransitToBlackScreen: CallbackAction<TransitToBlackScreen>(
+          onInvoke: (_) {
+            ref.read(textStatesProvider.notifier).switchBlack();
+            return null;
+          },
+        ),
       },
       autofocus: true,
       focusNode: useFocusNode(),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Center(
-          child: FittedBox(
-            child: Stack(
-              fit: StackFit.passthrough,
-              alignment: Alignment.center,
-              // background image
-              children: [
-                const BasePicture(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextItemWidget(
-                      textItem: state[0],
-                    ),
-                    TextItemWidget(
-                      textItem: state[1],
-                    ),
-                    TextItemWidget(
-                      textItem: state[2],
-                    ),
-                    TextItemWidget(
-                      textItem: state[3],
-                    ),
-                    TextItemWidget(
-                      textItem: state[4],
-                    ),
-                    TextItemWidget(
-                      textItem: state[5],
-                    ),
-                    TextItemWidget(
-                      textItem: state[6],
-                    ),
-                    const SizedBox(
-                      width: 40,
-                    ),
-                    TextItemWidget(
-                      textItem: state[7],
-                    ),
-                    TextItemWidget(
-                      textItem: state[8],
-                    ),
-                    TextItemWidget(
-                      textItem: state[9],
-                    ),
-                    TextItemWidget(
-                      textItem: state[10],
-                    ),
-                    TextItemWidget(
-                      textItem: state[11],
-                    ),
-                  ],
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 200),
+        child: ref.watch(textStatesProvider).shouldBlack
+            ? SizedBox.expand(
+                key: const ValueKey('black'),
+                child: Container(
+                  color: Colors.black,
                 ),
-              ],
-            ),
-          ),
-        ),
+              )
+            : Container(
+                key: const ValueKey('white'),
+                child: Scaffold(
+                  backgroundColor: Colors.white,
+                  body: Center(
+                    child: FittedBox(
+                      child: Stack(
+                        fit: StackFit.passthrough,
+                        alignment: Alignment.center,
+                        // background image
+                        children: [
+                          const BasePicture(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextItemWidget(
+                                textItem: state[0],
+                              ),
+                              TextItemWidget(
+                                textItem: state[1],
+                              ),
+                              TextItemWidget(
+                                textItem: state[2],
+                              ),
+                              TextItemWidget(
+                                textItem: state[3],
+                              ),
+                              TextItemWidget(
+                                textItem: state[4],
+                              ),
+                              TextItemWidget(
+                                textItem: state[5],
+                              ),
+                              TextItemWidget(
+                                textItem: state[6],
+                              ),
+                              const SizedBox(
+                                width: 40,
+                              ),
+                              TextItemWidget(
+                                textItem: state[7],
+                              ),
+                              TextItemWidget(
+                                textItem: state[8],
+                              ),
+                              TextItemWidget(
+                                textItem: state[9],
+                              ),
+                              TextItemWidget(
+                                textItem: state[10],
+                              ),
+                              TextItemWidget(
+                                textItem: state[11],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
       ),
     );
   }
@@ -177,16 +234,13 @@ class TextItemWidget extends StatelessWidget {
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 250),
         transitionBuilder: (child, animation) {
-          if (child.key!.toString().contains('false') &&
-              animation.value > 0.5) {
-            return SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(0, -0.05),
-                end: const Offset(0, 0),
-              ).animate(animation),
-              child: child,
-            );
-          }
+          //return SlideTransition(
+          //  position: Tween<Offset>(
+          //    begin: const Offset(0, -0.1),
+          //    end: const Offset(0, 0),
+          //  ).animate(animation),
+          //  child: child,
+          //);
           // shining側のアニメーション
           return FadeTransition(
             opacity: animation,
@@ -200,8 +254,8 @@ class TextItemWidget extends StatelessWidget {
               if (textItem.isShining)
                 ImageFiltered(
                   imageFilter: ImageFilter.blur(
-                    sigmaX: 10,
-                    sigmaY: 10,
+                    sigmaX: 60,
+                    sigmaY: 60,
                   ),
                   child: ShaderMask(
                     shaderCallback: textItem.gradient.createShader,
