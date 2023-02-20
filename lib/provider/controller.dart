@@ -11,18 +11,23 @@ class TextStatsModel {
   TextStatsModel({
     required this.textItems,
     required this.shouldBlack,
+    required this.noizeLevel,
   });
 
   final List<TextItem> textItems;
+  final List<AnimationController> animationControllers = [];
   final bool shouldBlack;
+  final double noizeLevel;
 
   TextStatsModel copyWith({
     List<TextItem>? textItems,
     bool? shouldBlack,
+    double? noizeLevel,
   }) {
     return TextStatsModel(
       textItems: textItems ?? this.textItems,
       shouldBlack: shouldBlack ?? this.shouldBlack,
+      noizeLevel: noizeLevel ?? this.noizeLevel,
     );
   }
 }
@@ -44,6 +49,7 @@ class TextStates extends _$TextStates {
   @override
   TextStatsModel build() {
     return TextStatsModel(
+      noizeLevel: 0,
       textItems: [
         const TextItem(
           text: 'M',
