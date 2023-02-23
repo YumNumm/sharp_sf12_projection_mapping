@@ -259,7 +259,9 @@ class TextStates extends _$TextStates {
     isProcessing = List.filled(12, false);
   }
 
-  void switchBlack() {
-    state = state.copyWith(shouldBlack: !state.shouldBlack);
+  void breakScreen() {
+    // 音を鳴らす
+    
+
   }
 }

@@ -16,7 +16,7 @@ Map<Type, CallbackAction> getActions(WidgetRef ref) {
     ResetIntent: CallbackAction<ResetIntent>(
       onInvoke: (ResetIntent intent) {
         ref.read(textStatesProvider.notifier).reset();
-        noiseAnimationController!.animateTo(1);
+
         return null;
       },
     ),
@@ -38,9 +38,13 @@ Map<Type, CallbackAction> getActions(WidgetRef ref) {
         return null;
       },
     ),
-    TransitToBlackScreen: CallbackAction<TransitToBlackScreen>(
+    BrakeScreenIntent: CallbackAction<BrakeScreenIntent>(
       onInvoke: (_) {
-        ref.read(textStatesProvider.notifier).switchBlack();
+        if (noiseAnimationController!.value == 1) {
+          noiseAnimationController!.reverse();
+        } else {
+          noiseAnimationController!.forward();
+        }
         return null;
       },
     ),

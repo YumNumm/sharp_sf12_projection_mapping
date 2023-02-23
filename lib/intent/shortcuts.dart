@@ -21,5 +21,5 @@ const shortcuts = <ShortcutActivator, Intent>{
   SingleActivator(LogicalKeyboardKey.space): ShowAllIntent(),
   SingleActivator(LogicalKeyboardKey.keyT): ShowTitleBarIntent(),
   SingleActivator(LogicalKeyboardKey.keyR): HideTitleBarIntent(),
-  SingleActivator(LogicalKeyboardKey.keyB): TransitToBlackScreen(),
+  SingleActivator(LogicalKeyboardKey.keyB): BrakeScreenIntent(),
 };

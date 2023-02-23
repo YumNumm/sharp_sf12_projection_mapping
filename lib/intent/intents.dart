@@ -21,6 +21,6 @@ class HideTitleBarIntent extends Intent {
   const HideTitleBarIntent();
 }
 
-class TransitToBlackScreen extends Intent {
-  const TransitToBlackScreen();
+class BrakeScreenIntent extends Intent {
+  const BrakeScreenIntent();
 }

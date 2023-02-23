@@ -15,16 +15,31 @@ class _NoiseWidgetState extends State<NoiseWidget>
     with TickerProviderStateMixin {
   double noiseLevel = 0;
 
+  int counter = 0;
+
   @override
   void initState() {
     noiseAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1),
+      duration: const Duration(seconds: 10),
     )..addListener(() {
-        print(noiseAnimationController!.value);
-        setState(() {
-          noiseLevel = noiseAnimationController!.value;
-        });
+        counter++;
+        if (counter % 5 == 0) {
+          setState(() {
+            noiseLevel = noiseAnimationController!.value;
+          });
+          counter = 0;
+        }
+        if (noiseAnimationController!.value == 0) {
+          setState(() {
+            noiseLevel = 0;
+          });
+        }
+        if (noiseAnimationController!.value == 1) {
+          setState(() {
+            noiseLevel = 1;
+          });
+        }
       });
     super.initState();
   }
@@ -53,34 +68,34 @@ class NoisePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    const blockSize = 1;
+    const blockSize = 100;
     final random = Random();
 
     // 画面をブロックサイズで分割して、ブロックごとにランダムに塗りつぶす
-    for (var width = 0; width < maxSize.width ~/ blockSize + 1; width++) {
-      for (var height = 0; height < maxSize.height ~/ blockSize + 1; height++) {
-        final x = width * blockSize;
-        final y = height * blockSize;
 
-        final rand = random.nextDouble();
-        // 閾値チェック
-        if (rand < noiseLevel) {
-          final paint = Paint()
-            ..color = Color(0xFF000000 + random.nextInt(0xFFFFFF))
-            ..style = PaintingStyle.fill;
+    final rand = random.nextDouble();
+    // 閾値チェック
+    for (var i = 0; i < pow(noiseLevel, 3) * 40; i++) {
+      final x = random.nextInt(maxSize.width.toInt());
+      final y = random.nextInt(maxSize.height.toInt());
+      final paint = Paint()
+        ..color = const Color(0xFF000000)
+        ..style = PaintingStyle.fill;
 
-          canvas.drawRect(
-            Rect.fromLTWH(
-              x.toDouble(),
-              y.toDouble(),
-              blockSize.toDouble(),
-              blockSize.toDouble(),
-            ),
-            paint,
-          );
-        }
-      }
+      canvas.drawRect(
+        Rect.fromLTWH(
+          x.toDouble(),
+          y.toDouble(),
+          (random.nextInt(maxSize.width ~/ 10) + 10).toDouble(),
+          (random.nextInt(maxSize.height ~/ 10) + 20).toDouble(),
+        ),
+        paint,
+      );
     }
+    canvas.drawColor(
+      Colors.black.withOpacity(pow(noiseLevel, 4).toDouble()),
+      BlendMode.srcOver,
+    );
   }
 
   @override
