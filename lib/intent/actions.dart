@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:ysfh_final/intent/intents.dart';
 import 'package:ysfh_final/provider/controller.dart';
@@ -16,7 +17,6 @@ Map<Type, CallbackAction> getActions(WidgetRef ref) {
     ResetIntent: CallbackAction<ResetIntent>(
       onInvoke: (ResetIntent intent) {
         ref.read(textStatesProvider.notifier).reset();
-
         return null;
       },
     ),
@@ -40,6 +40,12 @@ Map<Type, CallbackAction> getActions(WidgetRef ref) {
     ),
     BrakeScreenIntent: CallbackAction<BrakeScreenIntent>(
       onInvoke: (_) {
+        final player = AudioPlayer();
+        const fileName = 'sounds/output.mp3';
+        player.setAsset('assets/$fileName').then(
+              (_) => player.play(),
+            );
+
         if (noiseAnimationController!.value == 1) {
           noiseAnimationController!.reverse();
         } else {

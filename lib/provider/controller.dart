@@ -55,8 +55,8 @@ class TextStates extends _$TextStates {
           text: 'M',
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 252, 70, 107),
-              Color.fromARGB(255, 127, 0, 255),
+              Color.fromARGB(255, 87, 151, 255),
+              Color(0xFF0052d4),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -67,8 +67,8 @@ class TextStates extends _$TextStates {
           text: 'i',
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 127, 0, 255),
-              Color.fromARGB(255, 225, 0, 255),
+              Color.fromARGB(255, 0, 123, 255),
+              Color.fromARGB(255, 0, 42, 255),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -78,8 +78,8 @@ class TextStates extends _$TextStates {
           text: 'r',
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 225, 0, 255),
-              Color.fromARGB(255, 236, 56, 188),
+              Color.fromARGB(255, 0, 42, 255),
+              Color.fromARGB(255, 17, 39, 150),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -89,7 +89,7 @@ class TextStates extends _$TextStates {
           text: 'a',
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 236, 56, 188),
+              Color.fromARGB(255, 17, 39, 150),
               Color.fromARGB(255, 102, 125, 182),
             ],
             begin: Alignment.topLeft,
@@ -100,8 +100,8 @@ class TextStates extends _$TextStates {
           text: 'c',
           gradient: LinearGradient(
             colors: [
+              Color.fromARGB(255, 102, 125, 182),
               Color.fromARGB(255, 0, 55, 194),
-              Color.fromARGB(255, 228, 5, 9),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -111,8 +111,9 @@ class TextStates extends _$TextStates {
           text: 'l',
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 224, 0, 4),
-              Color.fromARGB(255, 0, 104, 209),
+              Color.fromARGB(255, 30, 0, 164),
+              Color.fromARGB(255, 0, 55, 194),
+
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -261,7 +262,5 @@ class TextStates extends _$TextStates {
 
   void breakScreen() {
     // 音を鳴らす
-    
-
   }
 }

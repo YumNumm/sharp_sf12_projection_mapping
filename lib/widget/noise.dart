@@ -14,8 +14,11 @@ class NoiseWidget extends StatefulWidget {
 class _NoiseWidgetState extends State<NoiseWidget>
     with TickerProviderStateMixin {
   double noiseLevel = 0;
+  double backgroundOpacity = 0;
 
   int counter = 0;
+
+  bool isProcessing = false;
 
   @override
   void initState() {
@@ -24,22 +27,20 @@ class _NoiseWidgetState extends State<NoiseWidget>
       duration: const Duration(seconds: 10),
     )..addListener(() {
         counter++;
-        if (counter % 5 == 0) {
-          setState(() {
+        setState(() {
+          if (counter % 10 == 0) {
             noiseLevel = noiseAnimationController!.value;
-          });
-          counter = 0;
-        }
-        if (noiseAnimationController!.value == 0) {
-          setState(() {
+            counter = 0;
+          }
+          if (noiseAnimationController!.value == 0) {
             noiseLevel = 0;
-          });
-        }
-        if (noiseAnimationController!.value == 1) {
-          setState(() {
+          }
+          if (noiseAnimationController!.value == 1) {
             noiseLevel = 1;
-          });
-        }
+          }
+          backgroundOpacity =
+              pow(noiseAnimationController!.value, 4).toDouble();
+        });
       });
     super.initState();
   }
@@ -48,10 +49,21 @@ class _NoiseWidgetState extends State<NoiseWidget>
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return CustomPaint(
-          painter: NoisePainter(
-            Size(constraints.maxWidth, constraints.maxHeight),
-            noiseLevel,
+        return SizedBox(
+          width: constraints.maxWidth,
+          height: constraints.maxHeight,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(backgroundOpacity),
+            ),
+            child: RepaintBoundary(
+              child: CustomPaint(
+                painter: NoisePainter(
+                  Size(constraints.maxWidth, constraints.maxHeight),
+                  noiseLevel,
+                ),
+              ),
+            ),
           ),
         );
       },
@@ -68,12 +80,10 @@ class NoisePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    const blockSize = 100;
     final random = Random();
 
     // 画面をブロックサイズで分割して、ブロックごとにランダムに塗りつぶす
 
-    final rand = random.nextDouble();
     // 閾値チェック
     for (var i = 0; i < pow(noiseLevel, 3) * 40; i++) {
       final x = random.nextInt(maxSize.width.toInt());
@@ -92,14 +102,11 @@ class NoisePainter extends CustomPainter {
         paint,
       );
     }
-    canvas.drawColor(
-      Colors.black.withOpacity(pow(noiseLevel, 4).toDouble()),
-      BlendMode.srcOver,
-    );
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return true;
+  bool shouldRepaint(covariant NoisePainter oldDelegate) {
+    return oldDelegate.maxSize != maxSize ||
+        oldDelegate.noiseLevel != noiseLevel;
   }
 }

@@ -129,9 +129,7 @@ class HomePage extends HookConsumerWidget {
                     ),
                   ),
           ),
-          const Expanded(
-            child: NoiseWidget(),
-          ),
+          const NoiseWidget()
         ],
       ),
     );
