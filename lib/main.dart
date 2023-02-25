@@ -83,42 +83,78 @@ class HomePage extends HookConsumerWidget {
                                 children: [
                                   TextItemWidget(
                                     textItem: state[0],
+                                    animationDuration: ref
+                                        .watch(textStatesProvider)
+                                        .animationDuration,
                                   ),
                                   TextItemWidget(
                                     textItem: state[1],
+                                    animationDuration: ref
+                                        .watch(textStatesProvider)
+                                        .animationDuration,
                                   ),
                                   TextItemWidget(
                                     textItem: state[2],
+                                    animationDuration: ref
+                                        .watch(textStatesProvider)
+                                        .animationDuration,
                                   ),
                                   TextItemWidget(
                                     textItem: state[3],
+                                    animationDuration: ref
+                                        .watch(textStatesProvider)
+                                        .animationDuration,
                                   ),
                                   TextItemWidget(
                                     textItem: state[4],
+                                    animationDuration: ref
+                                        .watch(textStatesProvider)
+                                        .animationDuration,
                                   ),
                                   TextItemWidget(
                                     textItem: state[5],
+                                    animationDuration: ref
+                                        .watch(textStatesProvider)
+                                        .animationDuration,
                                   ),
                                   TextItemWidget(
                                     textItem: state[6],
+                                    animationDuration: ref
+                                        .watch(textStatesProvider)
+                                        .animationDuration,
                                   ),
                                   const SizedBox(
                                     width: 40,
                                   ),
                                   TextItemWidget(
                                     textItem: state[7],
+                                    animationDuration: ref
+                                        .watch(textStatesProvider)
+                                        .animationDuration,
                                   ),
                                   TextItemWidget(
                                     textItem: state[8],
+                                    animationDuration: ref
+                                        .watch(textStatesProvider)
+                                        .animationDuration,
                                   ),
                                   TextItemWidget(
                                     textItem: state[9],
+                                    animationDuration: ref
+                                        .watch(textStatesProvider)
+                                        .animationDuration,
                                   ),
                                   TextItemWidget(
                                     textItem: state[10],
+                                    animationDuration: ref
+                                        .watch(textStatesProvider)
+                                        .animationDuration,
                                   ),
                                   TextItemWidget(
                                     textItem: state[11],
+                                    animationDuration: ref
+                                        .watch(textStatesProvider)
+                                        .animationDuration,
                                   ),
                                 ],
                               ),
@@ -139,10 +175,12 @@ class HomePage extends HookConsumerWidget {
 class TextItemWidget extends StatelessWidget {
   const TextItemWidget({
     required this.textItem,
+    required this.animationDuration,
     super.key,
   });
 
   final TextItem textItem;
+  final Duration animationDuration;
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +193,7 @@ class TextItemWidget extends StatelessWidget {
     return Transform.translate(
       offset: Offset(0, textItem.shouldShow ? 0 : -10000),
       child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 250),
+        duration: animationDuration,
         transitionBuilder: (child, animation) {
           return FadeTransition(
             opacity: animation,

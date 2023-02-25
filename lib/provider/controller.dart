@@ -12,22 +12,30 @@ class TextStatsModel {
     required this.textItems,
     required this.shouldBlack,
     required this.noizeLevel,
+    required this.animationDuration,
+    required this.animationPersistance,
   });
 
   final List<TextItem> textItems;
   final List<AnimationController> animationControllers = [];
   final bool shouldBlack;
   final double noizeLevel;
+  final Duration animationDuration;
+  final Duration animationPersistance;
 
   TextStatsModel copyWith({
     List<TextItem>? textItems,
     bool? shouldBlack,
     double? noizeLevel,
+    Duration? animationDuration,
+    Duration? animationPersistance,
   }) {
     return TextStatsModel(
       textItems: textItems ?? this.textItems,
       shouldBlack: shouldBlack ?? this.shouldBlack,
       noizeLevel: noizeLevel ?? this.noizeLevel,
+      animationDuration: animationDuration ?? this.animationDuration,
+      animationPersistance: animationPersistance ?? this.animationPersistance,
     );
   }
 }
@@ -113,7 +121,6 @@ class TextStates extends _$TextStates {
             colors: [
               Color.fromARGB(255, 30, 0, 164),
               Color.fromARGB(255, 0, 55, 194),
-
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -188,16 +195,20 @@ class TextStates extends _$TextStates {
         ),
       ],
       shouldBlack: false,
+      animationDuration: const Duration(milliseconds: 250),
+      animationPersistance: const Duration(milliseconds: 600),
     );
   }
 
-  void onPress(int target) {
-    // 音を鳴らす
-    final player = AudioPlayer();
-    final fileName = 'sounds/${(target + 1).toString().padLeft(2, "0")}.mp3';
-    player.setAsset('assets/$fileName').then(
-          (_) => player.play(),
-        );
+  void onPress(int target, {bool shouldSound = true}) {
+    if (shouldSound) {
+      // 音を鳴らす
+      final player = AudioPlayer();
+      final fileName = 'sounds/${(target + 1).toString().padLeft(2, "0")}.mp3';
+      player.setAsset('assets/$fileName').then(
+            (_) => player.play(),
+          );
+    }
 
     // 実行中の場合は無視
     if (isProcessing[target]) {
@@ -227,7 +238,7 @@ class TextStates extends _$TextStates {
     );
     // 150ms後に実行中を解除
     timers[target].cancel();
-    timers[target] = Timer(const Duration(milliseconds: 800), () {
+    timers[target] = Timer(state.animationPersistance, () {
       isProcessing[target] = false;
       // isShiningがtrueの場合はfalseにする
       if (state.textItems[target].isShining) {
@@ -240,6 +251,14 @@ class TextStates extends _$TextStates {
         );
       }
     });
+  }
+
+  void randomPress(int targetCount) {
+    final targets = (List<int>.generate(12, (index) => index)..shuffle())
+        .sublist(0, targetCount);
+    for (final target in targets) {
+      onPress(target, shouldSound: false);
+    }
   }
 
   void showAll() {
@@ -262,5 +281,13 @@ class TextStates extends _$TextStates {
 
   void breakScreen() {
     // 音を鳴らす
+  }
+
+  void setAnimationDuration(Duration duration) {
+    state = state.copyWith(animationDuration: duration);
+  }
+
+  void setAnimationPersistance(Duration duration) {
+    state = state.copyWith(animationPersistance: duration);
   }
 }

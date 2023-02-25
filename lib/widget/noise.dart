@@ -1,17 +1,19 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:ysfh_final/provider/controller.dart';
 
 AnimationController? noiseAnimationController;
 
-class NoiseWidget extends StatefulWidget {
+class NoiseWidget extends ConsumerStatefulWidget {
   const NoiseWidget({super.key});
 
   @override
-  State<NoiseWidget> createState() => _NoiseWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() => _NoiseWidgetState();
 }
 
-class _NoiseWidgetState extends State<NoiseWidget>
+class _NoiseWidgetState extends ConsumerState<NoiseWidget>
     with TickerProviderStateMixin {
   double noiseLevel = 0;
   double backgroundOpacity = 0;
@@ -20,6 +22,8 @@ class _NoiseWidgetState extends State<NoiseWidget>
 
   bool isProcessing = false;
 
+  DateTime lastTime = DateTime.now();
+
   @override
   void initState() {
     noiseAnimationController = AnimationController(
@@ -27,16 +31,32 @@ class _NoiseWidgetState extends State<NoiseWidget>
       duration: const Duration(seconds: 10),
     )..addListener(() {
         counter++;
+        if (DateTime.now().difference(lastTime).inMilliseconds > 200) {
+          // ランダムに文字を光らせる
+          ref
+              .read(textStatesProvider.notifier)
+              .randomPress(Random().nextInt(12));
+          lastTime = DateTime.now();
+        }
         setState(() {
           if (counter % 10 == 0) {
             noiseLevel = noiseAnimationController!.value;
             counter = 0;
           }
-          if (noiseAnimationController!.value == 0) {
+          if (noiseAnimationController!.value == 0 ||
+              noiseAnimationController!.value == 1) {
             noiseLevel = 0;
+
+            ref.read(textStatesProvider.notifier)
+              ..randomPress(12)
+              ..setAnimationDuration(const Duration(milliseconds: 80))
+              ..setAnimationPersistance(const Duration(milliseconds: 200));
           }
-          if (noiseAnimationController!.value == 1) {
+          if (noiseAnimationController!.status == AnimationStatus.completed) {
             noiseLevel = 1;
+            ref.read(textStatesProvider.notifier)
+              ..setAnimationDuration(const Duration(milliseconds: 250))
+              ..setAnimationPersistance(const Duration(milliseconds: 600));
           }
           backgroundOpacity =
               pow(noiseAnimationController!.value, 4).toDouble();
