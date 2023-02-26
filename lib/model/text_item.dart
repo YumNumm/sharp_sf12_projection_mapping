@@ -4,27 +4,27 @@ import 'package:flutter/material.dart';
 class TextItem {
   const TextItem({
     required this.text,
-    required this.gradient,
+    required this.color,
     this.isHead = false,
     this.isShining = false,
     this.shouldShow = false,
   });
   final String text;
-  final Gradient gradient;
   final bool isHead;
   final bool isShining;
   final bool shouldShow;
+  final Color color;
 
   TextItem copyWith({
     String? text,
-    Gradient? gradient,
+    Color? color,
     bool? isHead,
     bool? isShining,
     bool? shouldShow,
   }) {
     return TextItem(
       text: text ?? this.text,
-      gradient: gradient ?? this.gradient,
+      color: color ?? this.color,
       isHead: isHead ?? this.isHead,
       isShining: isShining ?? this.isShining,
       shouldShow: shouldShow ?? this.shouldShow,

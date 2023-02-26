@@ -211,7 +211,12 @@ class TextItemWidget extends StatelessWidget {
                     sigmaY: 60,
                   ),
                   child: ShaderMask(
-                    shaderCallback: textItem.gradient.createShader,
+                    shaderCallback: LinearGradient(
+                      colors: [
+                        textItem.color,
+                        textItem.color,
+                      ],
+                    ).createShader,
                     child: Text(
                       textItem.text,
                       style: style.copyWith(

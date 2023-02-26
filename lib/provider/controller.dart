@@ -56,142 +56,72 @@ class TextStates extends _$TextStates {
 
   @override
   TextStatsModel build() {
+    /* #ff0000
+#ff803b
+#ffd492
+#ffd070
+#fff556
+#cafb28
+#8efd75
+
+#fe7bdc
+#a27dfc
+#4053fd
+#42affe
+#9cebdd
+*/
     return TextStatsModel(
       noizeLevel: 0,
       textItems: [
         const TextItem(
           text: 'M',
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 87, 151, 255),
-              Color(0xFF0052d4),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Color.fromARGB(255, 255, 0, 0),
           isHead: true,
         ),
         const TextItem(
           text: 'i',
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 0, 123, 255),
-              Color.fromARGB(255, 0, 42, 255),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Color.fromARGB(255, 255, 128, 59),
         ),
         const TextItem(
           text: 'r',
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 0, 42, 255),
-              Color.fromARGB(255, 17, 39, 150),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Color.fromARGB(255, 255, 212, 146),
         ),
         const TextItem(
           text: 'a',
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 17, 39, 150),
-              Color.fromARGB(255, 102, 125, 182),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Color.fromARGB(255, 255, 208, 112),
         ),
         const TextItem(
           text: 'c',
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 102, 125, 182),
-              Color.fromARGB(255, 0, 55, 194),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Color.fromARGB(255, 255, 245, 86),
         ),
         const TextItem(
           text: 'l',
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 30, 0, 164),
-              Color.fromARGB(255, 0, 55, 194),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Color.fromARGB(255, 202, 251, 40),
         ),
         const TextItem(
           text: 'e',
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 5, 117, 230),
-              Color.fromARGB(255, 149, 17, 182),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Color.fromARGB(255, 142, 253, 117),
         ),
         const TextItem(
           text: 'G',
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 149, 17, 182),
-              Color.fromARGB(255, 198, 66, 110),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Color.fromARGB(255, 254, 123, 220),
           isHead: true,
         ),
         const TextItem(
           text: 'r',
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 198, 66, 110),
-              Color.fromARGB(255, 192, 57, 43),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Color.fromARGB(255, 162, 125, 252),
         ),
         const TextItem(
           text: 'a',
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 192, 57, 43),
-              Color.fromARGB(255, 142, 68, 173),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Color.fromARGB(255, 64, 83, 253),
         ),
         const TextItem(
           text: 'd',
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 54, 209, 220),
-              Color.fromARGB(255, 91, 134, 229),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Color.fromARGB(255, 66, 175, 254),
         ),
         const TextItem(
           text: 'e',
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 236, 56, 188),
-              Color.fromARGB(255, 102, 125, 182),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Color.fromARGB(255, 156, 235, 221),
         ),
       ],
       shouldBlack: false,
