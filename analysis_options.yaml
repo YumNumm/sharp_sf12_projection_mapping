@@ -2,5 +2,21 @@
 include: package:pedantic_mono/analysis_options.yaml
 
 analyzer:
-  plugins:
-    - custom_lint
+  strong-mode:
+    implicit-casts: true
+    implicit-dynamic: true
+  exclude:
+    - "**/generated_plugin_registrant.dart"
+    - "**/build/**"
+    - "**/generated_*.dart"
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.gr.dart"
+    - "**/l10n*.dart"
+    - "**/*.gen.dart"
+
+linter:
+  rules:
+    avoid_print: false
+    lines_longer_than_80_chars: false
+    file_names: false
