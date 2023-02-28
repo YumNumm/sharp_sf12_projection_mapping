@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:ysfh_final/intent/intents.dart';
+import 'package:sharp_sf12_projection_mapping/intent/intents.dart';
 
 const shortcuts = <ShortcutActivator, Intent>{
   SingleActivator(LogicalKeyboardKey.digit1): OnKeyPressIntent(1),
@@ -19,7 +19,6 @@ const shortcuts = <ShortcutActivator, Intent>{
   SingleActivator(LogicalKeyboardKey.caret): OnKeyPressIntent(12),
   SingleActivator(LogicalKeyboardKey.enter): ResetIntent(),
   SingleActivator(LogicalKeyboardKey.space): ShowAllIntent(),
-  SingleActivator(LogicalKeyboardKey.keyT): ShowTitleBarIntent(),
-  SingleActivator(LogicalKeyboardKey.keyR): HideTitleBarIntent(),
   SingleActivator(LogicalKeyboardKey.keyB): BrakeScreenIntent(),
+  SingleActivator(LogicalKeyboardKey.keyL): SwitchShadowLevelIntent(),
 };

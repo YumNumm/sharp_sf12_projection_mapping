@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = ysfh_final
+PRODUCT_NAME = sharp_sf12_projection_mapping
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = net.yumnumm.ysfhFinal
+PRODUCT_BUNDLE_IDENTIFIER = net.yumnumm.sharpSf12ProjectionMapping
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2023 net.yumnumm. All rights reserved.

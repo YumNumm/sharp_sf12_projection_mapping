@@ -95,8 +95,8 @@ jobs:
         run: |
           flutter build macos --release
           mkdir -p Payload
-          mv ./build/macos/Build/Products/Release/ysfh_final.app  ysfh_final.app
-          zip -ry ysfh_final.app.zip ysfh_final.app
+          mv ./build/macos/Build/Products/Release/sharp_sf12_projection_mapping.app  sharp_sf12_projection_mapping.app
+          zip -ry sharp_sf12_projection_mapping.app.zip sharp_sf12_projection_mapping.app
 
       ######## Upload ########
       - name: Upload Windows artifact
@@ -117,7 +117,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-pages-artifact@v1
         with:
-          path: './build/web'
+          path: "./build/web"
 
       - name: Deploy to GitHub Pages
         if: matrix.os == 'ubuntu-latest'
@@ -129,6 +129,4 @@ jobs:
         uses: actions/upload-artifact@v1.0.0
         with:
           name: release-macOS
-          path: YSFH_Final.app
-
-
+          path: sharp_sf12_projection_mapping.app

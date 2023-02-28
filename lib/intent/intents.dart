@@ -13,14 +13,10 @@ class ShowAllIntent extends Intent {
   const ShowAllIntent();
 }
 
-class ShowTitleBarIntent extends Intent {
-  const ShowTitleBarIntent();
-}
-
-class HideTitleBarIntent extends Intent {
-  const HideTitleBarIntent();
-}
-
 class BrakeScreenIntent extends Intent {
   const BrakeScreenIntent();
+}
+
+class SwitchShadowLevelIntent extends Intent {
+  const SwitchShadowLevelIntent();
 }

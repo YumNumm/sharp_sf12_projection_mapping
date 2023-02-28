@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "net.yumnumm" "\0"
-            VALUE "FileDescription", "ysfh_final" "\0"
+            VALUE "FileDescription", "sharp_sf12_projection_mapping" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "ysfh_final" "\0"
+            VALUE "InternalName", "sharp_sf12_projection_mapping" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 net.yumnumm. All rights reserved." "\0"
-            VALUE "OriginalFilename", "ysfh_final.exe" "\0"
-            VALUE "ProductName", "ysfh_final" "\0"
+            VALUE "OriginalFilename", "sharp_sf12_projection_mapping.exe" "\0"
+            VALUE "ProductName", "sharp_sf12_projection_mapping" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

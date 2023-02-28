@@ -1,5 +1,5 @@
-name: ysfh_final
-description: A new Flutter project.
+name: sharp_sf12_projection_mapping
+description: YSFH12th Projection Mapping Application
 publish_to: "none"
 
 version: 1.0.0+1
@@ -8,7 +8,6 @@ environment:
   sdk: ">=2.19.0 <3.0.0"
 
 dependencies:
-  bordered_text: ^2.0.0
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
@@ -18,17 +17,13 @@ dependencies:
   just_audio: ^0.9.31
   just_audio_windows: ^0.2.0
   riverpod_annotation: ^1.1.1
-  window_manager: ^0.3.0
 
 dev_dependencies:
-  build_runner: null
-  custom_lint: null
+  build_runner: ^2.3.3
   flutter_lints: ^2.0.0
-  flutter_test:
-    sdk: flutter
   pedantic_mono: ^1.21.1
   riverpod_generator: ^1.1.1
-  riverpod_lint: null
+  riverpod_lint: ^1.0.1
 
 flutter:
   uses-material-design: true

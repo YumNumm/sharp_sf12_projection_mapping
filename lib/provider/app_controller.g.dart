@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'controller.dart';
+part of 'app_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -29,19 +29,18 @@ class _SystemHash {
   }
 }
 
-String _$TextStatesHash() => r'c4b110d3523e5ab031ebf64c751aaa3b93354fb3';
+String _$AppStateHash() => r'81673520cd4201624f0e8c01c646a1f5c0832619';
 
-/// See also [TextStates].
-final textStatesProvider =
-    AutoDisposeNotifierProvider<TextStates, TextStatsModel>(
-  TextStates.new,
-  name: r'textStatesProvider',
+/// See also [AppState].
+final appStateProvider = AutoDisposeNotifierProvider<AppState, AppStateModel>(
+  AppState.new,
+  name: r'appStateProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$TextStatesHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$AppStateHash,
 );
-typedef TextStatesRef = AutoDisposeNotifierProviderRef<TextStatsModel>;
+typedef AppStateRef = AutoDisposeNotifierProviderRef<AppStateModel>;
 
-abstract class _$TextStates extends AutoDisposeNotifier<TextStatsModel> {
+abstract class _$AppState extends AutoDisposeNotifier<AppStateModel> {
   @override
-  TextStatsModel build();
+  AppStateModel build();
 }

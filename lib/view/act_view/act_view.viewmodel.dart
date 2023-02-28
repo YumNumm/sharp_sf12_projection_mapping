@@ -1,53 +1,46 @@
+// ignore_for_file: avoid_setters_without_getters, use_setters_to_change_properties
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:ysfh_final/model/text_item.dart';
+import 'package:sharp_sf12_projection_mapping/model/text_item.dart';
 
-part 'controller.g.dart';
+part 'act_view.viewmodel.g.dart';
 
 class TextStatsModel {
   TextStatsModel({
     required this.textItems,
     required this.shouldBlack,
     required this.noizeLevel,
-    required this.animationDuration,
-    required this.animationPersistance,
+    required this.isBlank,
   });
 
   final List<TextItem> textItems;
-  final List<AnimationController> animationControllers = [];
   final bool shouldBlack;
   final double noizeLevel;
-  final Duration animationDuration;
-  final Duration animationPersistance;
+  final bool isBlank;
 
   TextStatsModel copyWith({
     List<TextItem>? textItems,
     bool? shouldBlack,
     double? noizeLevel,
-    Duration? animationDuration,
-    Duration? animationPersistance,
+    bool? isBlank,
   }) {
     return TextStatsModel(
       textItems: textItems ?? this.textItems,
       shouldBlack: shouldBlack ?? this.shouldBlack,
       noizeLevel: noizeLevel ?? this.noizeLevel,
-      animationDuration: animationDuration ?? this.animationDuration,
-      animationPersistance: animationPersistance ?? this.animationPersistance,
+      isBlank: isBlank ?? this.isBlank,
     );
   }
 }
 
 @riverpod
-class TextStates extends _$TextStates {
-  List<bool> isProcessing = List.filled(12, false);
-
-  List<AudioPlayer> audioPlayers = List.generate(
-    12,
-    (index) => AudioPlayer(),
-  );
+class ActViewState extends _$ActViewState {
+  Duration animationDuration = const Duration(milliseconds: 250);
+  Duration animationPersistance = const Duration(milliseconds: 600);
 
   List<Timer> timers = List.generate(
     12,
@@ -56,22 +49,12 @@ class TextStates extends _$TextStates {
 
   @override
   TextStatsModel build() {
-    /* #ff0000
-#ff803b
-#ffd492
-#ffd070
-#fff556
-#cafb28
-#8efd75
-
-#fe7bdc
-#a27dfc
-#4053fd
-#42affe
-#9cebdd
-*/
+    animationDuration = const Duration(milliseconds: 250);
+    animationPersistance = const Duration(milliseconds: 600);
     return TextStatsModel(
       noizeLevel: 0,
+      shouldBlack: false,
+      isBlank: true,
       textItems: [
         const TextItem(
           text: 'M',
@@ -96,7 +79,7 @@ class TextStates extends _$TextStates {
         ),
         const TextItem(
           text: 'l',
-          color: Color.fromARGB(255, 202, 251, 40),
+          color: Color.fromARGB(255, 179, 229, 12),
         ),
         const TextItem(
           text: 'e',
@@ -117,16 +100,13 @@ class TextStates extends _$TextStates {
         ),
         const TextItem(
           text: 'd',
-          color: Color.fromARGB(255, 66, 175, 254),
+          color: Color.fromARGB(255, 34, 159, 248),
         ),
         const TextItem(
           text: 'e',
-          color: Color.fromARGB(255, 156, 235, 221),
+          color: Color.fromARGB(255, 42, 223, 190),
         ),
       ],
-      shouldBlack: false,
-      animationDuration: const Duration(milliseconds: 250),
-      animationPersistance: const Duration(milliseconds: 600),
     );
   }
 
@@ -140,25 +120,20 @@ class TextStates extends _$TextStates {
           );
     }
 
-    // 実行中の場合は無視
-    if (isProcessing[target]) {
-      return;
-    }
-
-    // 当該のTextItemのshouldShowがfalseの場合はtrueにする
-    if (!state.textItems[target].shouldShow) {
+    // 当該のTextItemのshowPaleColorがfalseの場合はtrueにする
+    // つまり、完全に非表示状態の場合は、薄く表示して終了
+    if (!state.textItems[target].showPaleColor) {
       state = state.copyWith(
         textItems: [
           ...state.textItems.sublist(0, target),
-          state.textItems[target].copyWith(shouldShow: true),
+          state.textItems[target].copyWith(showPaleColor: true),
           ...state.textItems.sublist(target + 1),
         ],
       );
       return;
     }
-    // 実行中にする
-    isProcessing[target] = true;
-    // 当該のTextItemのshouldShowがtrueの場合はisShiningをtrueにする
+
+    // 輝かせるアニメーションを開始
     state = state.copyWith(
       textItems: [
         ...state.textItems.sublist(0, target),
@@ -166,10 +141,9 @@ class TextStates extends _$TextStates {
         ...state.textItems.sublist(target + 1),
       ],
     );
-    // 150ms後に実行中を解除
+    // animationPersistance後に輝かせるアニメーションを終了
     timers[target].cancel();
-    timers[target] = Timer(state.animationPersistance, () {
-      isProcessing[target] = false;
+    timers[target] = Timer(animationPersistance, () {
       // isShiningがtrueの場合はfalseにする
       if (state.textItems[target].isShining) {
         state = state.copyWith(
@@ -183,20 +157,19 @@ class TextStates extends _$TextStates {
     });
   }
 
-  void randomPress(int targetCount) {
-    final targets = (List<int>.generate(12, (index) => index)..shuffle())
-        .sublist(0, targetCount);
-    for (final target in targets) {
-      onPress(target, shouldSound: false);
-    }
-  }
+  /// [targetCount]個のランダムなボタンを押したことにする
+  void randomPress(int targetCount) =>
+      (List<int>.generate(12, (index) => index)..shuffle())
+          .sublist(0, targetCount)
+          .forEach(onPress);
 
+  /// 全てのボタンを押したことにして、その状態を維持する
   void showAll() {
     state = state.copyWith(
       textItems: state.textItems
           .map(
             (e) => e.copyWith(
-              shouldShow: true,
+              showPaleColor: true,
               isShining: true,
             ),
           )
@@ -204,20 +177,11 @@ class TextStates extends _$TextStates {
     );
   }
 
-  void reset() {
-    state = build();
-    isProcessing = List.filled(12, false);
-  }
+  /// 初期値に戻す
+  void reset() => state = build();
 
-  void breakScreen() {
-    // 音を鳴らす
-  }
+  void setAnimationDuration(Duration duration) => animationDuration = duration;
 
-  void setAnimationDuration(Duration duration) {
-    state = state.copyWith(animationDuration: duration);
-  }
-
-  void setAnimationPersistance(Duration duration) {
-    state = state.copyWith(animationPersistance: duration);
-  }
+  void setAnimationPersistance(Duration duration) =>
+      animationPersistance = duration;
 }

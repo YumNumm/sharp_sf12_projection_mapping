@@ -7,12 +7,12 @@ class TextItem {
     required this.color,
     this.isHead = false,
     this.isShining = false,
-    this.shouldShow = false,
+    this.showPaleColor = false,
   });
   final String text;
   final bool isHead;
   final bool isShining;
-  final bool shouldShow;
+  final bool showPaleColor;
   final Color color;
 
   TextItem copyWith({
@@ -20,14 +20,14 @@ class TextItem {
     Color? color,
     bool? isHead,
     bool? isShining,
-    bool? shouldShow,
+    bool? showPaleColor,
   }) {
     return TextItem(
       text: text ?? this.text,
       color: color ?? this.color,
       isHead: isHead ?? this.isHead,
       isShining: isShining ?? this.isShining,
-      shouldShow: shouldShow ?? this.shouldShow,
+      showPaleColor: showPaleColor ?? this.showPaleColor,
     );
   }
 }

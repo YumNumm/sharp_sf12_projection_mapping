@@ -2,7 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:ysfh_final/provider/controller.dart';
+import 'package:sharp_sf12_projection_mapping/view/act_view/act_view.viewmodel.dart';
+import 'package:sharp_sf12_projection_mapping/widget/shadow_overlay_viewmodel.dart';
 
 AnimationController? noiseAnimationController;
 
@@ -15,14 +16,15 @@ class NoiseWidget extends ConsumerStatefulWidget {
 
 class _NoiseWidgetState extends ConsumerState<NoiseWidget>
     with TickerProviderStateMixin {
+  /// ノイズの強さ
   double noiseLevel = 0;
-  double backgroundOpacity = 0;
 
-  int counter = 0;
+  /// 再描画回数制御用のカウンター
+  int _counter = 0;
 
-  bool isProcessing = false;
-
-  DateTime lastTime = DateTime.now();
+  /// 文字を光らせる間隔調節用
+  /// 最後に文字を光らせた時間
+  DateTime _lastTime = DateTime.now();
 
   @override
   void initState() {
@@ -30,58 +32,56 @@ class _NoiseWidgetState extends ConsumerState<NoiseWidget>
       vsync: this,
       duration: const Duration(seconds: 10),
     )..addListener(() {
-        counter++;
-        if (DateTime.now().difference(lastTime).inMilliseconds > 200) {
+        _counter++;
+        if (DateTime.now().difference(_lastTime).inMilliseconds > 200) {
           // ランダムに文字を光らせる
           ref
-              .read(textStatesProvider.notifier)
+              .read(actViewStateProvider.notifier)
               .randomPress(Random().nextInt(12));
-          lastTime = DateTime.now();
+          _lastTime = DateTime.now();
         }
-        setState(() {
-          if (counter % 10 == 0) {
-            noiseLevel = noiseAnimationController!.value;
-            counter = 0;
-          }
-          if (noiseAnimationController!.value == 0 ||
-              noiseAnimationController!.value == 1) {
-            noiseLevel = 0;
+        ref.read(shadowOverlayStateProvider.notifier).state =
+            pow(noiseAnimationController!.value, 4).toDouble();
 
-            ref.read(textStatesProvider.notifier)
-              ..randomPress(12)
-              ..setAnimationDuration(const Duration(milliseconds: 80))
-              ..setAnimationPersistance(const Duration(milliseconds: 200));
+        setState(() {
+          if (_counter % 10 == 0) {
+            noiseLevel = noiseAnimationController!.value;
           }
           if (noiseAnimationController!.status == AnimationStatus.completed) {
-            noiseLevel = 1;
-            ref.read(textStatesProvider.notifier)
+            noiseLevel = 0;
+            ref.read(actViewStateProvider.notifier)
               ..setAnimationDuration(const Duration(milliseconds: 250))
               ..setAnimationPersistance(const Duration(milliseconds: 600));
           }
-          backgroundOpacity =
-              pow(noiseAnimationController!.value, 4).toDouble();
         });
+
+        if (noiseAnimationController!.value == 1 ||
+            noiseAnimationController!.value == 0) {
+          ref.read(actViewStateProvider.notifier)
+            ..randomPress(12)
+            ..setAnimationDuration(const Duration(milliseconds: 80))
+            ..setAnimationPersistance(const Duration(milliseconds: 200));
+          setState(() {
+            noiseLevel = 0;
+          });
+        }
       });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(noiseLevel);
     return LayoutBuilder(
       builder: (context, constraints) {
         return SizedBox(
           width: constraints.maxWidth,
           height: constraints.maxHeight,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(backgroundOpacity),
-            ),
-            child: RepaintBoundary(
-              child: CustomPaint(
-                painter: NoisePainter(
-                  Size(constraints.maxWidth, constraints.maxHeight),
-                  noiseLevel,
-                ),
+          child: RepaintBoundary(
+            child: CustomPaint(
+              painter: _NoisePainter(
+                Size(constraints.maxWidth, constraints.maxHeight),
+                noiseLevel,
               ),
             ),
           ),
@@ -91,8 +91,8 @@ class _NoiseWidgetState extends ConsumerState<NoiseWidget>
   }
 }
 
-class NoisePainter extends CustomPainter {
-  NoisePainter(this.maxSize, this.noiseLevel);
+class _NoisePainter extends CustomPainter {
+  _NoisePainter(this.maxSize, this.noiseLevel);
 
   /// ノイズレベル　0.0 ~ 1.0
   final double noiseLevel;
@@ -125,7 +125,7 @@ class NoisePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant NoisePainter oldDelegate) {
+  bool shouldRepaint(covariant _NoisePainter oldDelegate) {
     return oldDelegate.maxSize != maxSize ||
         oldDelegate.noiseLevel != noiseLevel;
   }
