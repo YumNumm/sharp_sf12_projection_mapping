@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -161,7 +162,12 @@ class ActViewState extends _$ActViewState {
   void randomPress(int targetCount) =>
       (List<int>.generate(12, (index) => index)..shuffle())
           .sublist(0, targetCount)
-          .forEach(onPress);
+          .forEach(
+            (e) => onPress(
+              e,
+              shouldSound: kIsWeb,
+            ),
+          );
 
   /// 全てのボタンを押したことにして、その状態を維持する
   void showAll() {
