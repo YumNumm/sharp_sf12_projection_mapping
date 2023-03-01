@@ -157,7 +157,7 @@ class ActViewState extends _$ActViewState {
           .forEach(
             (e) => onPress(
               e,
-              shouldSound: kIsWeb,
+              shouldSound: !kIsWeb,
             ),
           );
 
