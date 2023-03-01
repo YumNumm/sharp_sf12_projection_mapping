@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class FlagState {
   const FlagState({
     this.showBanner = true,
-    this.showControlBoard = kIsWeb,
+    this.showControlBoard = false,
     this.showDebugInfo = false,
   });
 
