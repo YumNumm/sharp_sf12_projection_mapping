@@ -20,3 +20,7 @@ class BreakScreenIntent extends Intent {
 class SwitchShadowLevelIntent extends Intent {
   const SwitchShadowLevelIntent();
 }
+
+class ToMainViewIntent extends Intent {
+  const ToMainViewIntent();
+}

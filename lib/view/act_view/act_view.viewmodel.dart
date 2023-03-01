@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sharp_sf12_projection_mapping/model/text_item.dart';
+import 'package:sharp_sf12_projection_mapping/view/act_view/component/noise_widget.dart';
+import 'package:sharp_sf12_projection_mapping/widget/shadow_overlay_viewmodel.dart';
 
 part 'act_view.viewmodel.g.dart';
 
@@ -44,6 +46,8 @@ class ActViewState extends _$ActViewState {
     12,
     (index) => Timer(Duration.zero, () {}),
   );
+
+  Size displaySize = Size.zero;
 
   @override
   List<TextItem> build() {
@@ -174,4 +178,38 @@ class ActViewState extends _$ActViewState {
 
   void setAnimationPersistance(Duration duration) =>
       animationPersistance = duration;
+
+  void onTapDown(TapDownDetails details) {
+    // タップした座標を取得
+    final tapPosition = details.localPosition;
+    // 画面を横方向12分割したときに、どの区間にタップしたかを取得
+    final tapIndex = (tapPosition.dx / displaySize.width * 12).floor();
+    // タップした区間のボタンを押したことにする
+    onPress(tapIndex);
+  }
+
+  void switchShadowLevel() {
+    final shadowLevel = ref.read(shadowOverlayStateProvider);
+    if (shadowLevel == 1.0) {
+      ref.read(shadowOverlayStateProvider.notifier).state = 0.0;
+    } else {
+      ref.read(shadowOverlayStateProvider.notifier).state = 1.0;
+    }
+  }
+
+  void startBreakScreen(){
+      final player = AudioPlayer();
+    const fileName = 'sounds/output.mp3';
+    player.setAsset('assets/$fileName').then(
+          (_) => player.play(),
+        );
+
+    if (noiseAnimationController!.value == 1) {
+      noiseAnimationController!.reverse();
+    } else {
+      noiseAnimationController!.forward();
+    }
+  }
+
+  void setDisplaySize(Size size) => displaySize = size;
 }

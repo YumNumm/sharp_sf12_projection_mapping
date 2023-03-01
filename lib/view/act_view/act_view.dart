@@ -13,114 +13,134 @@ class ActView extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    useEffect(
+      () {
+        Future(() async {
+          // 画面サイズを取得
+          final size = MediaQuery.of(context).size;
+          // 画面サイズを登録
+          ref.read(actViewStateProvider.notifier).setDisplaySize(size);
+        });
+        return null;
+      },
+      [],
+    );
+
     final state = ref.watch(actViewStateProvider);
     return FocusableActionDetector(
       shortcuts: shortcuts,
       actions: getActions(ref),
       autofocus: true,
       focusNode: useFocusNode(),
-      child: Stack(
-        children: [
-          Container(
-            key: const ValueKey('white'),
-            child: Scaffold(
-              backgroundColor: Colors.white,
-              body: Center(
-                child: FittedBox(
-                  child: Stack(
-                    fit: StackFit.passthrough,
-                    alignment: Alignment.center,
-                    // background image
-                    children: [
-                      const BasePicture(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextItemWidget(
-                            textItem: state[0],
-                            animationDuration: ref
-                                .read(actViewStateProvider.notifier)
-                                .animationDuration,
-                          ),
-                          TextItemWidget(
-                            textItem: state[1],
-                            animationDuration: ref
-                                .read(actViewStateProvider.notifier)
-                                .animationDuration,
-                          ),
-                          TextItemWidget(
-                            textItem: state[2],
-                            animationDuration: ref
-                                .read(actViewStateProvider.notifier)
-                                .animationDuration,
-                          ),
-                          TextItemWidget(
-                            textItem: state[3],
-                            animationDuration: ref
-                                .read(actViewStateProvider.notifier)
-                                .animationDuration,
-                          ),
-                          TextItemWidget(
-                            textItem: state[4],
-                            animationDuration: ref
-                                .read(actViewStateProvider.notifier)
-                                .animationDuration,
-                          ),
-                          TextItemWidget(
-                            textItem: state[5],
-                            animationDuration: ref
-                                .read(actViewStateProvider.notifier)
-                                .animationDuration,
-                          ),
-                          TextItemWidget(
-                            textItem: state[6],
-                            animationDuration: ref
-                                .read(actViewStateProvider.notifier)
-                                .animationDuration,
-                          ),
-                          const SizedBox(
-                            width: 40,
-                          ),
-                          TextItemWidget(
-                            textItem: state[7],
-                            animationDuration: ref
-                                .read(actViewStateProvider.notifier)
-                                .animationDuration,
-                          ),
-                          TextItemWidget(
-                            textItem: state[8],
-                            animationDuration: ref
-                                .read(actViewStateProvider.notifier)
-                                .animationDuration,
-                          ),
-                          TextItemWidget(
-                            textItem: state[9],
-                            animationDuration: ref
-                                .read(actViewStateProvider.notifier)
-                                .animationDuration,
-                          ),
-                          TextItemWidget(
-                            textItem: state[10],
-                            animationDuration: ref
-                                .read(actViewStateProvider.notifier)
-                                .animationDuration,
-                          ),
-                          TextItemWidget(
-                            textItem: state[11],
-                            animationDuration: ref
-                                .read(actViewStateProvider.notifier)
-                                .animationDuration,
-                          ),
-                        ],
-                      ),
-                    ],
+      child: GestureDetector(
+        onTapDown: ref.read(actViewStateProvider.notifier).onTapDown,
+        onHorizontalDragEnd: (_) =>
+            ref.read(actViewStateProvider.notifier).showAll(),
+        onVerticalDragEnd: (_) =>
+            ref.read(actViewStateProvider.notifier).reset(),
+        child: Stack(
+          children: [
+            Container(
+              key: const ValueKey('white'),
+              child: Scaffold(
+                backgroundColor: Colors.white,
+                body: Center(
+                  child: FittedBox(
+                    child: Stack(
+                      fit: StackFit.passthrough,
+                      alignment: Alignment.center,
+                      // background image
+                      children: [
+                        const BasePicture(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextItemWidget(
+                              textItem: state[0],
+                              animationDuration: ref
+                                  .read(actViewStateProvider.notifier)
+                                  .animationDuration,
+                            ),
+                            TextItemWidget(
+                              textItem: state[1],
+                              animationDuration: ref
+                                  .read(actViewStateProvider.notifier)
+                                  .animationDuration,
+                            ),
+                            TextItemWidget(
+                              textItem: state[2],
+                              animationDuration: ref
+                                  .read(actViewStateProvider.notifier)
+                                  .animationDuration,
+                            ),
+                            TextItemWidget(
+                              textItem: state[3],
+                              animationDuration: ref
+                                  .read(actViewStateProvider.notifier)
+                                  .animationDuration,
+                            ),
+                            TextItemWidget(
+                              textItem: state[4],
+                              animationDuration: ref
+                                  .read(actViewStateProvider.notifier)
+                                  .animationDuration,
+                            ),
+                            TextItemWidget(
+                              textItem: state[5],
+                              animationDuration: ref
+                                  .read(actViewStateProvider.notifier)
+                                  .animationDuration,
+                            ),
+                            TextItemWidget(
+                              textItem: state[6],
+                              animationDuration: ref
+                                  .read(actViewStateProvider.notifier)
+                                  .animationDuration,
+                            ),
+                            const SizedBox(
+                              width: 40,
+                            ),
+                            TextItemWidget(
+                              textItem: state[7],
+                              animationDuration: ref
+                                  .read(actViewStateProvider.notifier)
+                                  .animationDuration,
+                            ),
+                            TextItemWidget(
+                              textItem: state[8],
+                              animationDuration: ref
+                                  .read(actViewStateProvider.notifier)
+                                  .animationDuration,
+                            ),
+                            TextItemWidget(
+                              textItem: state[9],
+                              animationDuration: ref
+                                  .read(actViewStateProvider.notifier)
+                                  .animationDuration,
+                            ),
+                            TextItemWidget(
+                              textItem: state[10],
+                              animationDuration: ref
+                                  .read(actViewStateProvider.notifier)
+                                  .animationDuration,
+                            ),
+                            TextItemWidget(
+                              textItem: state[11],
+                              animationDuration: ref
+                                  .read(actViewStateProvider.notifier)
+                                  .animationDuration,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          const NoiseWidget()
-        ],
+            const NoiseWidget()
+          ],
+        ),
       ),
     );
   }

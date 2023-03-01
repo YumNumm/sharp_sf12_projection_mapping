@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:sharp_sf12_projection_mapping/intent/intents.dart';
+import 'package:sharp_sf12_projection_mapping/main.dart';
 import 'package:sharp_sf12_projection_mapping/view/act_view/act_view.viewmodel.dart';
-import 'package:sharp_sf12_projection_mapping/view/act_view/component/noise_widget.dart';
-import 'package:sharp_sf12_projection_mapping/widget/shadow_overlay_viewmodel.dart';
+import 'package:sharp_sf12_projection_mapping/view/main_view/main_view.dart';
 
 Map<Type, CallbackAction> getActions(WidgetRef ref) {
   return {
@@ -28,28 +27,23 @@ Map<Type, CallbackAction> getActions(WidgetRef ref) {
     ),
     BreakScreenIntent: CallbackAction<BreakScreenIntent>(
       onInvoke: (_) {
-        final player = AudioPlayer();
-        const fileName = 'sounds/output.mp3';
-        player.setAsset('assets/$fileName').then(
-              (_) => player.play(),
-            );
-
-        if (noiseAnimationController!.value == 1) {
-          noiseAnimationController!.reverse();
-        } else {
-          noiseAnimationController!.forward();
-        }
+        ref.read(actViewStateProvider.notifier).startBreakScreen();
         return null;
       },
     ),
     SwitchShadowLevelIntent: CallbackAction<SwitchShadowLevelIntent>(
       onInvoke: (_) {
-        final shadowLevel = ref.read(shadowOverlayStateProvider);
-        if (shadowLevel == 1.0) {
-          ref.read(shadowOverlayStateProvider.notifier).state = 0.0;
-        } else {
-          ref.read(shadowOverlayStateProvider.notifier).state = 1.0;
-        }
+        ref.read(actViewStateProvider.notifier).switchShadowLevel();
+        return null;
+      },
+    ),
+    ToMainViewIntent: CallbackAction<ToMainViewIntent>(
+      onInvoke: (_) {
+        Navigator.of(navigatorKey.currentContext!).pushReplacement(
+          MaterialPageRoute<void>(
+            builder: (context) => const MainView(),
+          ),
+        );
         return null;
       },
     ),

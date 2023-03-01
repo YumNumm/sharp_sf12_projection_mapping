@@ -2,8 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 @immutable
-class Flag {
-  const Flag({
+class FlagState {
+  const FlagState({
     this.showBanner = true,
     this.showControlBoard = kIsWeb,
     this.showDebugInfo = false,
@@ -13,12 +13,12 @@ class Flag {
   final bool showControlBoard;
   final bool showDebugInfo;
 
-  Flag copyWith({
+  FlagState copyWith({
     bool? showBanner,
     bool? showControlBoard,
     bool? showDebugInfo,
   }) {
-    return Flag(
+    return FlagState(
       showBanner: showBanner ?? this.showBanner,
       showControlBoard: showControlBoard ?? this.showControlBoard,
       showDebugInfo: showDebugInfo ?? this.showDebugInfo,
@@ -26,10 +26,10 @@ class Flag {
   }
 }
 
-class FlagStateNotifier extends StateNotifier<Flag> {
+class FlagStateNotifier extends StateNotifier<FlagState> {
   FlagStateNotifier()
       : super(
-          const Flag(),
+          const FlagState(),
         );
 
   void update({
@@ -45,6 +45,6 @@ class FlagStateNotifier extends StateNotifier<Flag> {
   }
 }
 
-final flagProvider = StateNotifierProvider<FlagStateNotifier, Flag>(
+final flagStateProvider = StateNotifierProvider<FlagStateNotifier, FlagState>(
   (ref) => FlagStateNotifier(),
 );

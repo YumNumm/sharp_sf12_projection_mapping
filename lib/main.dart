@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sharp_sf12_projection_mapping/provider/flag_provider.dart';
 import 'package:sharp_sf12_projection_mapping/view/act_view/act_view.viewmodel.dart';
-import 'package:sharp_sf12_projection_mapping/view/act_view/component/control_panel.dart';
 import 'package:sharp_sf12_projection_mapping/view/act_view/component/noise_widget.dart';
 import 'package:sharp_sf12_projection_mapping/view/main_view/main_view.dart';
+import 'package:sharp_sf12_projection_mapping/widget/control_panel.dart';
 import 'package:sharp_sf12_projection_mapping/widget/debug_info_wdget.dart';
 import 'package:sharp_sf12_projection_mapping/widget/shadow_overlay.dart';
 
@@ -27,6 +27,7 @@ class App extends ConsumerWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: const MainView(),
+      title: '#SF12 Projection Mapping App',
       navigatorKey: navigatorKey,
       theme: ThemeData.light().copyWith(
         useMaterial3: true,
@@ -36,7 +37,7 @@ class App extends ConsumerWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       builder: (context, child) {
-        final flags = ref.watch(flagProvider);
+        final flags = ref.watch(flagStateProvider);
         final actState = ref.watch(actViewStateProvider);
         final body = Stack(
           children: [

@@ -5,13 +5,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sharp_sf12_projection_mapping/provider/flag_provider.dart';
-import 'package:sharp_sf12_projection_mapping/view/act_view/act_view.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:sharp_sf12_projection_mapping/view/main_view/main_view.viewmodel.dart';
 
 class MainView extends ConsumerWidget {
   const MainView({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final vm = ref.watch(mainViewModelProvider);
     final t = Theme.of(context);
     return Stack(
       children: [
@@ -37,11 +37,7 @@ class MainView extends ConsumerWidget {
             title: const Text('#SF12 Projection Mapping App'),
           ),
           floatingActionButton: FloatingActionButton.extended(
-            onPressed: () => Navigator.of(context).pushReplacement(
-              MaterialPageRoute<void>(
-                builder: (context) => const ActView(),
-              ),
-            ),
+            onPressed: () => vm.onFloatingActionButtonPressed(context),
             label: const Text('開始'),
             icon: const Icon(Icons.play_arrow),
           ),
@@ -90,43 +86,15 @@ class MainView extends ConsumerWidget {
                           const Text(
                             '開始後 画面の任意の部分をタップ・数字の1-9,0,-,~キーを押して、文字を光らせることができます\n'
                             'ロングタップ・Escキーで 終了\n'
-                            '2本指ピンチイン・Enterキーでリセット\n'
-                            '2本指ピンチアウト・Spaceキーで全文字点灯\n'
+                            '縦にスクロール・Spaceキーで全文字点灯\n'
+                            '横にスクロール・Enterキーでリセット\n'
                             'ダブルタップ・Bキーで壊れるアニメーション開始\n'
                             'Lキーで画面点灯・消灯切り替え',
                           ),
                           const Divider(),
                           // AboutDialog Elevated Button
                           ElevatedButton(
-                            onPressed: () => showAboutDialog(
-                              context: context,
-                              applicationName: '#SF12 Projection Mapping App',
-                              applicationVersion: '1.0.0',
-                              applicationLegalese:
-                                  'Produced by 2023 YSFH 12th Projection Mapping Project\n'
-                                  'This software is released under the MIT License, see LICENSE.',
-                              applicationIcon: const SizedBox(
-                                width: 64,
-                                height: 64,
-                                child: Image(
-                                  image: AssetImage('assets/ysfh.png'),
-                                ),
-                              ),
-                              children: [
-                                TextButton(
-                                  child: const Text(
-                                    'https://github.com/YumNumm/sharp_sf12_projection_mapping',
-                                  ),
-                                  onPressed: () {
-                                    launchUrl(
-                                      Uri.parse(
-                                        'https://github.com/YumNumm/sharp_sf12_projection_mapping',
-                                      ),
-                                    );
-                                  },
-                                )
-                              ],
-                            ),
+                            onPressed: () => vm.onLicenseButtonPressed(context),
                             child: const Text('ライセンス情報'),
                           ),
                         ],
@@ -160,9 +128,9 @@ class MainView extends ConsumerWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            value: ref.watch(flagProvider).showBanner,
+                            value: ref.watch(flagStateProvider).showBanner,
                             onChanged: (value) =>
-                                ref.read(flagProvider.notifier).update(
+                                ref.read(flagStateProvider.notifier).update(
                                       showBanner: value,
                                     ),
                             title: const Text('SHOW_BANNER'),
@@ -172,9 +140,10 @@ class MainView extends ConsumerWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            value: ref.watch(flagProvider).showControlBoard,
+                            value:
+                                ref.watch(flagStateProvider).showControlBoard,
                             onChanged: (value) =>
-                                ref.read(flagProvider.notifier).update(
+                                ref.read(flagStateProvider.notifier).update(
                                       showControlBoard: value,
                                     ),
                             title: const Text('SHOW_CONTROL_BOARD'),
@@ -184,9 +153,9 @@ class MainView extends ConsumerWidget {
                               borderRadius: BorderRadius.circular(8),
                             ),
                             title: const Text('SHOW_DEBUG_INFO'),
-                            value: ref.watch(flagProvider).showDebugInfo,
+                            value: ref.watch(flagStateProvider).showDebugInfo,
                             onChanged: (value) =>
-                                ref.read(flagProvider.notifier).update(
+                                ref.read(flagStateProvider.notifier).update(
                                       showDebugInfo: value,
                                     ),
                           ),
