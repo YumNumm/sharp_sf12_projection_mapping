@@ -20,7 +20,7 @@ class MainViewModel {
   void onLicenseButtonPressed(BuildContext context) => showAboutDialog(
         context: context,
         applicationName: '#SF12 Projection Mapping App',
-        applicationVersion: '1.1.0 Public Archive',
+        applicationVersion: '1.1.0',
         applicationLegalese:
             'Produced by YSFH 12th Projection Mapping Project 2023\n'
             'This software is released under the MIT License, see LICENSE.',
