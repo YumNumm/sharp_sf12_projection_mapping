@@ -2,27 +2,11 @@ name: release
 
 on:
   push:
-    tags:
-      - "*.*.*"
     branches: [main]
   workflow_dispatch:
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Allow one concurrent deployment
-concurrency:
-  group: "pages"
-  cancel-in-progress: true
-
 jobs:
   build:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     strategy:
@@ -71,6 +55,10 @@ jobs:
       - name: Flutter version
         run: flutter --version
 
+      - name: Accept Android License
+        if: matrix.os == 'ubuntu-latest'
+        run: yes | flutter doctor --android-licenses
+
       - name: Flutter dependencies install
         run: flutter pub get
 
@@ -86,9 +74,9 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: flutter build linux --release
 
-      - name: Build web
+      - name: Build apk
         if: matrix.os == 'ubuntu-latest'
-        run: flutter build web --release --web-renderer html --base-href /
+        run: flutter build apk --release
 
       - name: Build macOS
         if: matrix.os == 'macos-latest'
@@ -113,16 +101,12 @@ jobs:
           name: release-linux
           path: build/linux/
 
-      - name: Upload Web artifact
+      - name: Upload apk artifact
         if: matrix.os == 'ubuntu-latest'
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-artifact@v1.0.0
         with:
-          path: "./build/web"
-
-      - name: Deploy to GitHub Pages
-        if: matrix.os == 'ubuntu-latest'
-        id: deployment
-        uses: actions/deploy-pages@v1
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
 
       - name: Upload macOS artifact
         if: matrix.os == 'macos-latest'
