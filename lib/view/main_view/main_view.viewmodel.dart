@@ -11,7 +11,7 @@ class MainViewModel {
   MainViewModel();
 
   Future<void> onFloatingActionButtonPressed(BuildContext context) =>
-      Navigator.of(context).pushReplacement(
+      Navigator.of(context).push(
         MaterialPageRoute<void>(
           builder: (context) => const ActView(),
         ),

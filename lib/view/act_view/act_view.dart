@@ -40,8 +40,7 @@ class ActView extends HookConsumerWidget {
             ref.read(actViewStateProvider.notifier).showAll(),
         onVerticalDragEnd: (_) =>
             ref.read(actViewStateProvider.notifier).reset(),
-        onDoubleTap: ref.read(actViewStateProvider.notifier).startBreakScreen,
-        onLongPress: ref.read(actViewStateProvider.notifier).backToMainView,
+        onLongPress: ref.read(actViewStateProvider.notifier).startBreakScreen,
         child: Stack(
           children: [
             Container(
