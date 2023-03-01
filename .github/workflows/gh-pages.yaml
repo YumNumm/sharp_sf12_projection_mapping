@@ -62,12 +62,10 @@ jobs:
 
       ######## Build ########
       - name: Build web
-        if: matrix.os == 'ubuntu-latest'
         run: flutter build web --release --base-href /
 
       ######## Upload ########
       - name: Upload Web artifact
-        if: matrix.os == 'ubuntu-latest'
         uses: actions/upload-pages-artifact@v1
         with:
           path: "./build/web"
