@@ -19,6 +19,6 @@ const shortcuts = <ShortcutActivator, Intent>{
   SingleActivator(LogicalKeyboardKey.caret): OnKeyPressIntent(12),
   SingleActivator(LogicalKeyboardKey.enter): ResetIntent(),
   SingleActivator(LogicalKeyboardKey.space): ShowAllIntent(),
-  SingleActivator(LogicalKeyboardKey.keyB): BrakeScreenIntent(),
+  SingleActivator(LogicalKeyboardKey.keyB): BreakScreenIntent(),
   SingleActivator(LogicalKeyboardKey.keyL): SwitchShadowLevelIntent(),
 };

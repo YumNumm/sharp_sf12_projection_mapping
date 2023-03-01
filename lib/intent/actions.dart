@@ -26,7 +26,7 @@ Map<Type, CallbackAction> getActions(WidgetRef ref) {
         return null;
       },
     ),
-    BrakeScreenIntent: CallbackAction<BrakeScreenIntent>(
+    BreakScreenIntent: CallbackAction<BreakScreenIntent>(
       onInvoke: (_) {
         final player = AudioPlayer();
         const fileName = 'sounds/output.mp3';

@@ -27,6 +27,13 @@ class _NoiseWidgetState extends ConsumerState<NoiseWidget>
   DateTime _lastTime = DateTime.now();
 
   @override
+  void dispose() {
+    noiseAnimationController?.dispose();
+    noiseAnimationController = null;
+    super.dispose();
+  }
+
+  @override
   void initState() {
     noiseAnimationController = AnimationController(
       vsync: this,

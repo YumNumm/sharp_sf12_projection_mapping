@@ -30,4 +30,14 @@ class TextItem {
       showPaleColor: showPaleColor ?? this.showPaleColor,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'text': text,
+      'color': '0x${color.value.toRadixString(16)}'.toUpperCase(),
+      'isHead': isHead,
+      'isShining': isShining,
+      'showPaleColor': showPaleColor,
+    };
+  }
 }
