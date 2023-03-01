@@ -29,19 +29,19 @@ class _SystemHash {
   }
 }
 
-String _$ActViewStateHash() => r'726360bfde69d6086191cada5c41ba6127b7a7d3';
+String _$ActViewStateHash() => r'350134d08bea1f480420d9a75b126a3fb6ae401c';
 
 /// See also [ActViewState].
 final actViewStateProvider =
-    AutoDisposeNotifierProvider<ActViewState, TextStatsModel>(
+    AutoDisposeNotifierProvider<ActViewState, List<TextItem>>(
   ActViewState.new,
   name: r'actViewStateProvider',
   debugGetCreateSourceHash:
       const bool.fromEnvironment('dart.vm.product') ? null : _$ActViewStateHash,
 );
-typedef ActViewStateRef = AutoDisposeNotifierProviderRef<TextStatsModel>;
+typedef ActViewStateRef = AutoDisposeNotifierProviderRef<List<TextItem>>;
 
-abstract class _$ActViewState extends AutoDisposeNotifier<TextStatsModel> {
+abstract class _$ActViewState extends AutoDisposeNotifier<List<TextItem>> {
   @override
-  TextStatsModel build();
+  List<TextItem> build();
 }

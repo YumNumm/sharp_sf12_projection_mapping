@@ -13,8 +13,8 @@ class ShowAllIntent extends Intent {
   const ShowAllIntent();
 }
 
-class BrakeScreenIntent extends Intent {
-  const BrakeScreenIntent();
+class BreakScreenIntent extends Intent {
+  const BreakScreenIntent();
 }
 
 class SwitchShadowLevelIntent extends Intent {
