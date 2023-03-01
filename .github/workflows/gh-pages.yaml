@@ -62,7 +62,7 @@ jobs:
 
       ######## Build ########
       - name: Build web
-        run: flutter build web --release --base-href /
+        run: flutter build web --release --base-href / --web-renderer html
 
       ######## Upload ########
       - name: Upload Web artifact
