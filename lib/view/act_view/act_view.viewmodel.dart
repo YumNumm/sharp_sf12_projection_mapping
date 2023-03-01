@@ -6,8 +6,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:sharp_sf12_projection_mapping/main.dart';
 import 'package:sharp_sf12_projection_mapping/model/text_item.dart';
 import 'package:sharp_sf12_projection_mapping/view/act_view/component/noise_widget.dart';
+import 'package:sharp_sf12_projection_mapping/view/main_view/main_view.dart';
 import 'package:sharp_sf12_projection_mapping/widget/shadow_overlay_viewmodel.dart';
 
 part 'act_view.viewmodel.g.dart';
@@ -197,8 +199,8 @@ class ActViewState extends _$ActViewState {
     }
   }
 
-  void startBreakScreen(){
-      final player = AudioPlayer();
+  void startBreakScreen() {
+    final player = AudioPlayer();
     const fileName = 'sounds/output.mp3';
     player.setAsset('assets/$fileName').then(
           (_) => player.play(),
@@ -212,4 +214,11 @@ class ActViewState extends _$ActViewState {
   }
 
   void setDisplaySize(Size size) => displaySize = size;
+
+  void backToMainView() =>
+      Navigator.of(navigatorKey.currentContext!).pushReplacement(
+        MaterialPageRoute<void>(
+          builder: (context) => const MainView(),
+        ),
+      );
 }

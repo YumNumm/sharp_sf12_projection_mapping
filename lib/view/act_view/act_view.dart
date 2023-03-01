@@ -19,7 +19,9 @@ class ActView extends HookConsumerWidget {
           // 画面サイズを取得
           final size = MediaQuery.of(context).size;
           // 画面サイズを登録
-          ref.read(actViewStateProvider.notifier).setDisplaySize(size);
+          ref.read(actViewStateProvider.notifier)
+            ..setDisplaySize(size)
+            ..reset();
         });
         return null;
       },
@@ -38,6 +40,8 @@ class ActView extends HookConsumerWidget {
             ref.read(actViewStateProvider.notifier).showAll(),
         onVerticalDragEnd: (_) =>
             ref.read(actViewStateProvider.notifier).reset(),
+        onDoubleTap: ref.read(actViewStateProvider.notifier).startBreakScreen,
+        onLongPress: ref.read(actViewStateProvider.notifier).backToMainView,
         child: Stack(
           children: [
             Container(
