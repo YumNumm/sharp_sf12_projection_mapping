@@ -41,18 +41,10 @@ class TextItemWidget extends StatelessWidget {
                     sigmaX: 60,
                     sigmaY: 60,
                   ),
-                  child: ShaderMask(
-                    shaderCallback: LinearGradient(
-                      colors: [
-                        textItem.color,
-                        textItem.color,
-                      ],
-                    ).createShader,
-                    child: Text(
-                      textItem.text,
-                      style: style.copyWith(
-                        color: Colors.white,
-                      ),
+                  child: Text(
+                    textItem.text,
+                    style: style.copyWith(
+                      color: textItem.color,
                     ),
                   ),
                 ),
